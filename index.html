@@ -6,53 +6,48 @@
   <title>Evaluation of the Red Teaming Session for LLMs</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <style>
-    /* Global Reset & Styles */
+    /* Global Reset & Base Styles */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
     body {
-      background: #f7f7f7;
+      background: #f0f4f8;
       font-family: 'Roboto', sans-serif;
-      line-height: 1.6;
-      padding: 20px;
       color: #333;
+      padding: 20px;
     }
-    /* Main Container */
     .container {
       max-width: 800px;
       margin: 0 auto;
       background: #fff;
       padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
     }
-    /* Headings */
     h1, h2 {
-      color: #444;
-      margin-bottom: 15px;
       text-align: center;
+      margin-bottom: 20px;
+      color: #444;
     }
-    /* Form Sections */
     .form-section {
       margin-bottom: 25px;
       padding: 20px;
-      border: 1px solid #ddd;
+      background: #f9f9f9;
+      border: 1px solid #e0e0e0;
       border-radius: 8px;
-      background: #fafafa;
     }
     .form-section label {
       display: block;
       margin-bottom: 10px;
       font-weight: 500;
     }
-    /* Input, Select & Textarea Styles */
-    .form-section input[type="text"],
-    .form-section input[type="email"],
-    .form-section input[type="number"],
-    .form-section select,
-    .form-section textarea {
+    /* Input & Textarea Styles */
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    textarea {
       width: 100%;
       padding: 10px;
       margin-top: 5px;
@@ -60,28 +55,74 @@
       border-radius: 4px;
       transition: border-color 0.3s ease;
     }
-    .form-section input[type="text"]:focus,
-    .form-section input[type="email"]:focus,
-    .form-section input[type="number"]:focus,
-    .form-section select:focus,
-    .form-section textarea:focus {
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="number"]:focus,
+    textarea:focus {
       border-color: #4285F4;
       outline: none;
+    }
+    /* Radio Button Group Styles */
+    .rating-group {
+      margin: 15px 0;
+    }
+    .rating-group > .rating-label {
+      margin-bottom: 8px;
+      font-weight: 500;
+      display: block;
+    }
+    .rating-options {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .rating-option {
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      transition: background 0.3s, border-color 0.3s;
+    }
+    .rating-option input {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .rating-option span {
+      font-weight: 500;
+    }
+    .rating-option:hover {
+      background: #e8f0fe;
+      border-color: #4285F4;
+    }
+    .rating-option input:checked + span {
+      color: #fff;
+    }
+    .rating-option input:checked + span,
+    .rating-option input:checked ~ span {
+      background: #4285F4;
+      border-color: #4285F4;
+    }
+    .rating-option input:checked + span {
+      background: #4285F4;
+      padding: 4px 8px;
+      border-radius: 4px;
     }
     /* Submit Button */
     button {
       display: block;
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       background-color: #4285F4;
       color: #fff;
       border: none;
       font-size: 1.1em;
-      font-weight: 500;
       border-radius: 4px;
       cursor: pointer;
       transition: background-color 0.3s ease;
-      margin-top: 10px;
+      margin-top: 20px;
     }
     button:hover {
       background-color: #357ae8;
@@ -99,22 +140,31 @@
       top: 0;
       width: 100%;
       height: 100%;
-      overflow: auto;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
     }
     .modal-content {
       background: #fff;
-      margin: 15% auto;
       padding: 20px;
       border-radius: 8px;
-      width: 80%;
+      width: 90%;
       max-width: 400px;
       text-align: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
     .modal-content button {
       width: auto;
       margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #4285F4;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .modal-content button:hover {
+      background-color: #357ae8;
     }
   </style>
 </head>
@@ -135,142 +185,341 @@
         </label>
         <label>
           Level of experience in AI/LLMs:
-          <select name="experience_level">
-            <option value="Beginner">Beginner</option>
-            <option value="Intermediate">Intermediate</option>
-            <option value="Advanced">Advanced</option>
-          </select>
         </label>
+        <div class="rating-options">
+          <label class="rating-option">
+            <input type="radio" name="experience_level" value="Beginner">
+            <span>Beginner</span>
+          </label>
+          <label class="rating-option">
+            <input type="radio" name="experience_level" value="Intermediate">
+            <span>Intermediate</span>
+          </label>
+          <label class="rating-option">
+            <input type="radio" name="experience_level" value="Advanced">
+            <span>Advanced</span>
+          </label>
+        </div>
       </div>
       
       <!-- Section 2: Session Evaluation -->
       <div class="form-section">
         <h2>Session Evaluation</h2>
-        <label>
-          Clarity of the session's objectives and goals:
-          <select name="objectives_clarity">
-            <option value="1">1 (Poor)</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5 (Excellent)</option>
-          </select>
-        </label>
-        <label>
-          Relevance of the topics covered:
-          <select name="topics_relevance">
-            <option value="1">1 (Poor)</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5 (Excellent)</option>
-          </select>
-        </label>
-        <label>
-          Quality and clarity of the presentation/materials:
-          <select name="presentation_quality">
-            <option value="1">1 (Poor)</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5 (Excellent)</option>
-          </select>
-        </label>
-        <label>
-          Interaction and dynamism during the session:
-          <select name="interaction">
-            <option value="1">1 (Poor)</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5 (Excellent)</option>
-          </select>
-        </label>
-        <label>
-          Appropriateness of the time allocated for each activity:
-          <select name="time_allocation">
-            <option value="1">1 (Poor)</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5 (Excellent)</option>
-          </select>
-        </label>
-        <label>
-          Level of difficulty (in relation to your preparation):
-          <select name="difficulty_level">
-            <option value="Very Low">Very Low</option>
-            <option value="Low">Low</option>
-            <option value="Adequate">Adequate</option>
-            <option value="High">High</option>
-            <option value="Very High">Very High</option>
-          </select>
-        </label>
-        <label>
-          Contribution of the session to your understanding of vulnerabilities in LLMs:
-          <select name="understanding_contribution">
-            <option value="1">1 (Poor)</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5 (Excellent)</option>
-          </select>
-        </label>
-        <label>
-          Practical applicability of the knowledge acquired:
-          <select name="practical_applicability">
-            <option value="1">1 (Poor)</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5 (Excellent)</option>
-          </select>
-        </label>
+        <div class="rating-group">
+          <span class="rating-label">Clarity of the session's objectives and goals:</span>
+          <div class="rating-options">
+            <label class="rating-option">
+              <input type="radio" name="objectives_clarity" value="1">
+              <span>1</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="objectives_clarity" value="2">
+              <span>2</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="objectives_clarity" value="3">
+              <span>3</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="objectives_clarity" value="4">
+              <span>4</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="objectives_clarity" value="5">
+              <span>5</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="rating-group">
+          <span class="rating-label">Relevance of the topics covered:</span>
+          <div class="rating-options">
+            <label class="rating-option">
+              <input type="radio" name="topics_relevance" value="1">
+              <span>1</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="topics_relevance" value="2">
+              <span>2</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="topics_relevance" value="3">
+              <span>3</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="topics_relevance" value="4">
+              <span>4</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="topics_relevance" value="5">
+              <span>5</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="rating-group">
+          <span class="rating-label">Quality and clarity of the presentation/materials:</span>
+          <div class="rating-options">
+            <label class="rating-option">
+              <input type="radio" name="presentation_quality" value="1">
+              <span>1</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="presentation_quality" value="2">
+              <span>2</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="presentation_quality" value="3">
+              <span>3</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="presentation_quality" value="4">
+              <span>4</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="presentation_quality" value="5">
+              <span>5</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="rating-group">
+          <span class="rating-label">Interaction and dynamism during the session:</span>
+          <div class="rating-options">
+            <label class="rating-option">
+              <input type="radio" name="interaction" value="1">
+              <span>1</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="interaction" value="2">
+              <span>2</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="interaction" value="3">
+              <span>3</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="interaction" value="4">
+              <span>4</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="interaction" value="5">
+              <span>5</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="rating-group">
+          <span class="rating-label">Appropriateness of the time allocated for each activity:</span>
+          <div class="rating-options">
+            <label class="rating-option">
+              <input type="radio" name="time_allocation" value="1">
+              <span>1</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="time_allocation" value="2">
+              <span>2</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="time_allocation" value="3">
+              <span>3</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="time_allocation" value="4">
+              <span>4</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="time_allocation" value="5">
+              <span>5</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="rating-group">
+          <span class="rating-label">Level of difficulty (relative to your preparation):</span>
+          <div class="rating-options">
+            <label class="rating-option">
+              <input type="radio" name="difficulty_level" value="Very Low">
+              <span>Very Low</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="difficulty_level" value="Low">
+              <span>Low</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="difficulty_level" value="Adequate">
+              <span>Adequate</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="difficulty_level" value="High">
+              <span>High</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="difficulty_level" value="Very High">
+              <span>Very High</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="rating-group">
+          <span class="rating-label">Contribution of the session to your understanding of vulnerabilities in LLMs:</span>
+          <div class="rating-options">
+            <label class="rating-option">
+              <input type="radio" name="understanding_contribution" value="1">
+              <span>1</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="understanding_contribution" value="2">
+              <span>2</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="understanding_contribution" value="3">
+              <span>3</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="understanding_contribution" value="4">
+              <span>4</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="understanding_contribution" value="5">
+              <span>5</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="rating-group">
+          <span class="rating-label">Practical applicability of the knowledge acquired:</span>
+          <div class="rating-options">
+            <label class="rating-option">
+              <input type="radio" name="practical_applicability" value="1">
+              <span>1</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="practical_applicability" value="2">
+              <span>2</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="practical_applicability" value="3">
+              <span>3</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="practical_applicability" value="4">
+              <span>4</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="practical_applicability" value="5">
+              <span>5</span>
+            </label>
+          </div>
+        </div>
       </div>
       
       <!-- Section 3: Evaluation of the Red Teaming Approach -->
       <div class="form-section">
         <h2>Evaluation of the Red Teaming Approach</h2>
-        <label>
-          Clarity in explaining the red teaming methodology:
-          <select name="methodology_clarity">
-            <option value="1">1 (Poor)</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5 (Excellent)</option>
-          </select>
-        </label>
-        <label>
-          Relevance of the cases/tests presented to detect vulnerabilities in LLMs:
-          <select name="cases_relevance">
-            <option value="1">1 (Poor)</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5 (Excellent)</option>
-          </select>
-        </label>
-        <label>
-          Encouragement of critical and analytical thinking regarding LLM security:
-          <select name="critical_thinking">
-            <option value="1">1 (Poor)</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5 (Excellent)</option>
-          </select>
-        </label>
-        <label>
-          Impact of the session on your perception of the challenges in AI security:
-          <select name="perception_impact">
-            <option value="1">1 (Poor)</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5 (Excellent)</option>
-          </select>
-        </label>
+        <div class="rating-group">
+          <span class="rating-label">Clarity in explaining the red teaming methodology:</span>
+          <div class="rating-options">
+            <label class="rating-option">
+              <input type="radio" name="methodology_clarity" value="1">
+              <span>1</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="methodology_clarity" value="2">
+              <span>2</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="methodology_clarity" value="3">
+              <span>3</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="methodology_clarity" value="4">
+              <span>4</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="methodology_clarity" value="5">
+              <span>5</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="rating-group">
+          <span class="rating-label">Relevance of the cases/tests presented to detect vulnerabilities in LLMs:</span>
+          <div class="rating-options">
+            <label class="rating-option">
+              <input type="radio" name="cases_relevance" value="1">
+              <span>1</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="cases_relevance" value="2">
+              <span>2</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="cases_relevance" value="3">
+              <span>3</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="cases_relevance" value="4">
+              <span>4</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="cases_relevance" value="5">
+              <span>5</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="rating-group">
+          <span class="rating-label">Encouragement of critical and analytical thinking regarding LLM security:</span>
+          <div class="rating-options">
+            <label class="rating-option">
+              <input type="radio" name="critical_thinking" value="1">
+              <span>1</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="critical_thinking" value="2">
+              <span>2</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="critical_thinking" value="3">
+              <span>3</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="critical_thinking" value="4">
+              <span>4</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="critical_thinking" value="5">
+              <span>5</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="rating-group">
+          <span class="rating-label">Impact of the session on your perception of the challenges in AI security:</span>
+          <div class="rating-options">
+            <label class="rating-option">
+              <input type="radio" name="perception_impact" value="1">
+              <span>1</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="perception_impact" value="2">
+              <span>2</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="perception_impact" value="3">
+              <span>3</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="perception_impact" value="4">
+              <span>4</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="perception_impact" value="5">
+              <span>5</span>
+            </label>
+          </div>
+        </div>
       </div>
       
       <!-- Section 4: Open Questions and Comments -->
@@ -297,18 +546,69 @@
       <!-- Section 5: Global Evaluation -->
       <div class="form-section">
         <h2>Global Evaluation</h2>
-        <label>
-          Overall rating of the session (1 to 10):
-          <input type="number" name="global_rating" min="1" max="10">
-        </label>
-        <label>
-          Would you recommend this activity to other students?
-          <select name="recommend">
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-            <option value="Maybe">Maybe</option>
-          </select>
-        </label>
+        <div class="rating-group">
+          <span class="rating-label">Overall rating of the session (1 to 10):</span>
+          <div class="rating-options">
+            <!-- For brevity, we include options 1 through 10 -->
+            <label class="rating-option">
+              <input type="radio" name="global_rating" value="1">
+              <span>1</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="global_rating" value="2">
+              <span>2</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="global_rating" value="3">
+              <span>3</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="global_rating" value="4">
+              <span>4</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="global_rating" value="5">
+              <span>5</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="global_rating" value="6">
+              <span>6</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="global_rating" value="7">
+              <span>7</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="global_rating" value="8">
+              <span>8</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="global_rating" value="9">
+              <span>9</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="global_rating" value="10">
+              <span>10</span>
+            </label>
+          </div>
+        </div>
+        <div class="rating-group">
+          <span class="rating-label">Would you recommend this activity to other students?</span>
+          <div class="rating-options">
+            <label class="rating-option">
+              <input type="radio" name="recommend" value="Yes">
+              <span>Yes</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="recommend" value="No">
+              <span>No</span>
+            </label>
+            <label class="rating-option">
+              <input type="radio" name="recommend" value="Maybe">
+              <span>Maybe</span>
+            </label>
+          </div>
+        </div>
       </div>
       
       <button type="submit" id="submitButton">Submit Evaluation</button>
@@ -324,7 +624,7 @@
   </div>
 
   <script>
-    // Replace the URL below with your deployed Google Apps Script URL
+    // Replace with your deployed Google Apps Script URL
     const scriptURL = 'https://script.google.com/macros/s/AKfycbyqrv388hLg9veH7pjb9et_AznOS3M226aLHVJxKB29aAqmjM3VMpUsENylmqK18U4L5Q/exec';
     const form = document.getElementById('evaluationForm');
     const submitButton = document.getElementById('submitButton');
@@ -336,7 +636,7 @@
       submitButton.disabled = true; // Disable the submit button
       fetch(scriptURL, { method: 'POST', body: new FormData(form) })
         .then(response => {
-          modalPopup.style.display = 'block'; // Show the modal popup
+          modalPopup.style.display = 'flex'; // Show the modal popup using flex
           form.reset();
         })
         .catch(error => {
