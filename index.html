@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Evaluación de la Sesión de Red Teaming para LLMs</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    .form-section {
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 10px 15px;
+      background-color: #4285F4;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #357ae8;
+    }
+    #responseMessage {
+      margin-top: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Evaluación de la Sesión de Red Teaming para LLMs</h1>
+  <form id="evaluationForm">
+    <!-- Sección 1: Información General -->
+    <div class="form-section">
+      <h2>Información General (Opcional)</h2>
+      <label>
+        Nombre (opcional):
+        <input type="text" name="nombre" placeholder="Tu nombre">
+      </label>
+      <label>
+        Correo electrónico (opcional):
+        <input type="email" name="correo" placeholder="Tu correo electrónico">
+      </label>
+      <label>
+        Nivel de experiencia en IA/LLMs:
+        <select name="nivel_experiencia">
+          <option value="Principiante">Principiante</option>
+          <option value="Intermedio">Intermedio</option>
+          <option value="Avanzado">Avanzado</option>
+        </select>
+      </label>
+    </div>
+    
+    <!-- Sección 2: Evaluación de la Sesión -->
+    <div class="form-section">
+      <h2>Evaluación de la Sesión</h2>
+      <label>
+        Claridad de los objetivos y metas de la sesión:
+        <select name="claridad_objetivos">
+          <option value="1">1 (Deficiente)</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 (Excelente)</option>
+        </select>
+      </label>
+      <label>
+        Relevancia de los temas abordados:
+        <select name="relevancia_temas">
+          <option value="1">1 (Deficiente)</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 (Excelente)</option>
+        </select>
+      </label>
+      <label>
+        Calidad y claridad de la presentación/materiales:
+        <select name="calidad_presentacion">
+          <option value="1">1 (Deficiente)</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 (Excelente)</option>
+        </select>
+      </label>
+      <label>
+        Interacción y dinamismo durante la sesión:
+        <select name="interaccion_dinamismo">
+          <option value="1">1 (Deficiente)</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 (Excelente)</option>
+        </select>
+      </label>
+      <label>
+        Adecuación del tiempo destinado a cada actividad:
+        <select name="adecuacion_tiempo">
+          <option value="1">1 (Deficiente)</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 (Excelente)</option>
+        </select>
+      </label>
+      <label>
+        Nivel de dificultad (en relación con su preparación):
+        <select name="nivel_dificultad">
+          <option value="Muy bajo">Muy bajo</option>
+          <option value="Bajo">Bajo</option>
+          <option value="Adecuado">Adecuado</option>
+          <option value="Alto">Alto</option>
+          <option value="Muy alto">Muy alto</option>
+        </select>
+      </label>
+      <label>
+        Contribución de la sesión a su entendimiento de vulnerabilidades en LLMs:
+        <select name="contribucion_entendimiento">
+          <option value="1">1 (Deficiente)</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 (Excelente)</option>
+        </select>
+      </label>
+      <label>
+        Aplicabilidad práctica de los conocimientos adquiridos:
+        <select name="aplicabilidad_practica">
+          <option value="1">1 (Deficiente)</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 (Excelente)</option>
+        </select>
+      </label>
+    </div>
+    
+    <!-- Sección 3: Evaluación del Enfoque de Red Teaming -->
+    <div class="form-section">
+      <h2>Evaluación del Enfoque de Red Teaming</h2>
+      <label>
+        Claridad en la exposición de la metodología de red teaming:
+        <select name="claridad_metodologia">
+          <option value="1">1 (Deficiente)</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 (Excelente)</option>
+        </select>
+      </label>
+      <label>
+        Pertinencia de los casos/pruebas presentados para detectar vulnerabilidades en LLMs:
+        <select name="pertinencia_casos">
+          <option value="1">1 (Deficiente)</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 (Excelente)</option>
+        </select>
+      </label>
+      <label>
+        Fomento del pensamiento crítico y analítico respecto a la seguridad en LLMs:
+        <select name="fomento_pensamiento">
+          <option value="1">1 (Deficiente)</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 (Excelente)</option>
+        </select>
+      </label>
+      <label>
+        Impacto de la sesión en su percepción sobre los desafíos en la seguridad de sistemas de IA:
+        <select name="impacto_percepcion">
+          <option value="1">1 (Deficiente)</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5 (Excelente)</option>
+        </select>
+      </label>
+    </div>
+    
+    <!-- Sección 4: Preguntas Abiertas y Comentarios -->
+    <div class="form-section">
+      <h2>Preguntas Abiertas y Comentarios</h2>
+      <label>
+        ¿Qué aspectos de la sesión considera que se podrían mejorar?
+        <textarea name="aspectos_mejorar" rows="4" placeholder="Tu respuesta..."></textarea>
+      </label>
+      <label>
+        ¿Qué fue lo que más valoró o le gustó de la sesión?
+        <textarea name="aspectos_valorados" rows="4" placeholder="Tu respuesta..."></textarea>
+      </label>
+      <label>
+        ¿Cree que la actividad ha influido en su formación y comprensión sobre la seguridad en LLMs? ¿Por qué?
+        <textarea name="influencia_formacion" rows="4" placeholder="Tu respuesta..."></textarea>
+      </label>
+      <label>
+        Comentarios adicionales o sugerencias para futuras ediciones:
+        <textarea name="comentarios_adicionales" rows="4" placeholder="Tu respuesta..."></textarea>
+      </label>
+    </div>
+    
+    <!-- Sección 5: Evaluación Global -->
+    <div class="form-section">
+      <h2>Evaluación Global</h2>
+      <label>
+        Calificación global de la sesión (1 a 10):
+        <input type="number" name="calificacion_global" min="1" max="10">
+      </label>
+      <label>
+        ¿Recomendaría esta actividad a otros estudiantes?
+        <select name="recomendar">
+          <option value="Si">Sí</option>
+          <option value="No">No</option>
+          <option value="Tal vez">Tal vez</option>
+        </select>
+      </label>
+    </div>
+    
+    <button type="submit">Enviar Evaluación</button>
+  </form>
+  
+  <div id="responseMessage" style="display:none;"></div>
+  
+  <script>
+    // Reemplaza la siguiente URL con la URL de tu Google Apps Script desplegado como web app
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyqrv388hLg9veH7pjb9et_AznOS3M226aLHVJxKB29aAqmjM3VMpUsENylmqK18U4L5Q/exec';
+    const form = document.getElementById('evaluationForm');
+    const responseMessage = document.getElementById('responseMessage');
+    
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+        .then(response => {
+          responseMessage.style.display = 'block';
+          responseMessage.style.color = 'green';
+          responseMessage.textContent = '¡Gracias! Su evaluación ha sido enviada exitosamente.';
+          form.reset();
+        })
+        .catch(error => {
+          responseMessage.style.display = 'block';
+          responseMessage.style.color = 'red';
+          responseMessage.textContent = 'Ocurrió un error, por favor intente nuevamente.';
+          console.error('Error!', error.message);
+        });
+    });
+  </script>
+</body>
+</html>
