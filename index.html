@@ -174,15 +174,7 @@
     <form id="evaluationForm">
       <!-- Section 1: General Information -->
       <div class="form-section">
-        <h2>General Information (Optional)</h2>
-        <label>
-          Name (Optional):
-          <input type="text" name="name" placeholder="Your name">
-        </label>
-        <label>
-          Email (Optional):
-          <input type="email" name="email" placeholder="Your email">
-        </label>
+        <h2>General Information</h2>
         <label>
           Level of experience in AI/LLMs:
         </label>
@@ -284,7 +276,7 @@
         </div>
         
         <div class="rating-group">
-          <span class="rating-label">Interaction and dynamism during the session:</span>
+          <span class="rating-label">Engagement of the red teaming session:</span>
           <div class="rating-options">
             <label class="rating-option">
               <input type="radio" name="interaction" value="1">
@@ -470,7 +462,7 @@
         </div>
         
         <div class="rating-group">
-          <span class="rating-label">Encouragement of critical and analytical thinking regarding LLM security:</span>
+          <span class="rating-label">Encouragement of critical and analytical thinking regarding LLM safety:</span>
           <div class="rating-options">
             <label class="rating-option">
               <input type="radio" name="critical_thinking" value="1">
@@ -496,7 +488,7 @@
         </div>
         
         <div class="rating-group">
-          <span class="rating-label">Impact of the session on your perception of the challenges in AI security:</span>
+          <span class="rating-label">Impact of the session on your perception of the challenges in AI safety:</span>
           <div class="rating-options">
             <label class="rating-option">
               <input type="radio" name="perception_impact" value="1">
@@ -534,7 +526,7 @@
           <textarea name="highlights" rows="4" placeholder="Your answer..."></textarea>
         </label>
         <label>
-          Do you believe the activity has influenced your training and understanding of LLM security? Why?
+          Do you believe the activity has influenced your training and understanding of LLM safety? Why?
           <textarea name="influence" rows="4" placeholder="Your answer..."></textarea>
         </label>
         <label>
@@ -625,7 +617,7 @@
 
   <script>
     // Replace with your deployed Google Apps Script URL
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwx0do2VxfHwgt9a3R5vBbF01o4VvH-pEfK1-qSP0xIuGhCQakoCWfookNfiAv3FismIw/exec';
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxxIc1dt3eb3CUBTc5XNeZtNZ9TVK8OHZq6Uje7bsNW-YuFZDFozvrPRfd95suuMirIZA/exec';
     const form = document.getElementById('evaluationForm');
     const submitButton = document.getElementById('submitButton');
     const modalPopup = document.getElementById('modalPopup');
