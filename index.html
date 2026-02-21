@@ -172,7 +172,7 @@
   <div class="container">
     <h1>Evaluation of the Red Teaming Session for LLMs</h1>
     <form id="evaluationForm"
-      action="https://docs.google.com/spreadsheets/d/1ThVQV78RDtQdh1lQ2IBMxCEV6pstHJaG3Upp5ObHSYQ/formResponse" 
+      action="https://docs.google.com/forms/u/0/d/1ThVQV78RDtQdh1lQ2IBMxCEV6pstHJaG3Upp5ObHSYQ/formResponse" 
       method="POST" 
       target="hidden_iframe">
       <!-- Section 1: General Information -->
@@ -621,16 +621,16 @@
   <script>
     // Replace with your deployed Google Apps Script URL
     //const scriptURL = 'https://script.google.com/macros/s/AKfycbxxIc1dt3eb3CUBTc5XNeZtNZ9TVK8OHZq6Uje7bsNW-YuFZDFozvrPRfd95suuMirIZA/exec';
+    let submitted = false;
     const form = document.getElementById('evaluationForm');
-    const submitButton = document.getElementById('submitButton');
-    const modalPopup = document.getElementById('modalPopup');
-    const closeModal = document.getElementById('closeModal');
+    const iframe = document.getElementById('hidden_iframe');
 
     form.onsubmit = function() {
       submitted = true;
       document.getElementById('submitButton').disabled = true;
     };
 
+    // Detectamos cuando el iframe carga la respuesta de Google
     iframe.onload = function() {
       if (submitted) {
         document.getElementById('modalPopup').style.display = 'flex';
@@ -640,7 +640,7 @@
       }
     };
 
-    document.getElementById('closeModal').onclick = function() {
+    document.getElementById('closeModal').onclick = () => {
       document.getElementById('modalPopup').style.display = 'none';
     };
   </script>
