@@ -171,7 +171,10 @@
 <body>
   <div class="container">
     <h1>Evaluation of the Red Teaming Session for LLMs</h1>
-    <form id="evaluationForm">
+    <form id="evaluationForm"
+      action="https://docs.google.com/forms/u/0/d/1ThVQV78RDtQdh1lQ2IBMxCEV6pstHJaG3Upp5ObHSYQ/formResponse" 
+      method="POST" 
+      target="hidden_iframe">
       <!-- Section 1: General Information -->
       <div class="form-section">
         <h2>General Information</h2>
@@ -617,31 +620,29 @@
 
   <script>
     // Replace with your deployed Google Apps Script URL
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxxIc1dt3eb3CUBTc5XNeZtNZ9TVK8OHZq6Uje7bsNW-YuFZDFozvrPRfd95suuMirIZA/exec';
+    //const scriptURL = 'https://script.google.com/macros/s/AKfycbxxIc1dt3eb3CUBTc5XNeZtNZ9TVK8OHZq6Uje7bsNW-YuFZDFozvrPRfd95suuMirIZA/exec';
     const form = document.getElementById('evaluationForm');
     const submitButton = document.getElementById('submitButton');
     const modalPopup = document.getElementById('modalPopup');
     const closeModal = document.getElementById('closeModal');
 
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      submitButton.disabled = true; // Disable the submit button
-      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-        .then(response => {
-          modalPopup.style.display = 'flex'; // Show the modal popup using flex
-          form.reset();
-        })
-        .catch(error => {
-          alert('An error occurred. Please try again.');
-          submitButton.disabled = false;
-          console.error('Error!', error.message);
-        });
-    });
+    form.onsubmit = function() {
+      submitted = true;
+      document.getElementById('submitButton').disabled = true;
+    };
 
-    // Close the modal popup
-    closeModal.addEventListener('click', () => {
-      modalPopup.style.display = 'none';
-    });
+    iframe.onload = function() {
+      if (submitted) {
+        document.getElementById('modalPopup').style.display = 'flex';
+        form.reset();
+        document.getElementById('submitButton').disabled = false;
+        submitted = false;
+      }
+    };
+
+    document.getElementById('closeModal').onclick = function() {
+      document.getElementById('modalPopup').style.display = 'none';
+    };
   </script>
 </body>
 </html>
